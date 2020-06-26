@@ -6,7 +6,8 @@ import Contact from './ContactComponent';
 import About from './AboutComponent';
 import Favorites from './FavoriteComponent';
 import Login from './LoginComponent';
-import { View, Platform, Text, ScrollView, Image, StyleSheet, NetInfo, ToastAndroid } from 'react-native';
+import { View, Platform, Text, ScrollView, Image, StyleSheet, ToastAndroid } from 'react-native';
+import NetInfo from "@react-native-community/netinfo";
 import { createStackNavigator, createDrawerNavigator, DrawerItems, SafeAreaView } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
@@ -298,20 +299,8 @@ class Main extends Component {
     this.props.fetchComments();
     this.props.fetchPromos();
     this.props.fetchLeaders();
-
-    NetInfo.getConnectionInfo()
-        .then((connectionInfo) => {
-            ToastAndroid.show('Initial Network Connectivity Type: '
-                + connectionInfo.type + ', effectiveType: ' + connectionInfo.effectiveType,
-                ToastAndroid.LONG)
-        });
-
-    NetInfo.addEventListener('connectionChange', this.handleConnectivityChange);
   }
-
-  componentWillUnmount() {
-    NetInfo.removeEventListener('connectionChange', this.handleConnectivityChange);
-  }
+  
 
   handleConnectivityChange = (connectionInfo) => {
     switch (connectionInfo.type) {
